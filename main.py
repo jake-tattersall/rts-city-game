@@ -11,7 +11,7 @@ clock = pygame.time.Clock()
 win = pygame.display.set_mode(size=(WIDTH, HEIGHT))
 
 pixel = pygame.rect.Rect((10,10), (5,5))
-pixel = Test(10, PLAYER1, win, pixel)
+pixel = Test(10, PLAYER1, win, pixel, velocity=[100,20])
 
 run = True
 while run:
@@ -28,4 +28,4 @@ while run:
         if event.type == pygame.QUIT: 
             run = False
         
-    clock.tick(144)
+    clock.tick(30)

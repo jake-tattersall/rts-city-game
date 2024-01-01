@@ -26,20 +26,20 @@ class Object(ABC):
 class Test(Object):
     """"""
 
-    def __init__(self, hp=0, owner=NEUTRAL, win=None, rect=None, velocity=[1,1]):
+    def __init__(self, hp=0, owner=NEUTRAL, win=None, rect=None, velocity=[0,0]):
         self.hp : int = hp
         self.owner : str = owner
         self.win : pygame.surface.Surface = win
         self.rect : pygame.rect.Rect = rect
-        self.velocity : list = [2,3]
+        self.velocity : list = velocity
 
 
     def tick(self):
         """"""
         mag = (self.velocity[0] ** 2 + self.velocity[1] ** 2) ** .5
-        if mag != 0:
-            self.velocity[0] /= mag
-            self.velocity[1] /= mag
+        if mag != 0 and mag != 5:
+            self.velocity[0] *= (5/mag)
+            self.velocity[1] *= (5/mag)
 
         self.rect.x += self.velocity[0]
         self.rect.y += self.velocity[1]
