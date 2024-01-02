@@ -10,7 +10,7 @@ pygame.init()
 clock = pygame.time.Clock()
 
 
-win = pygame.display.set_mode(size=(WIDTH, HEIGHT))
+win = pygame.display.set_mode((0,0))
 selected : Tower = None
 
 objects = []
@@ -26,7 +26,7 @@ while run:
     pos = pygame.mouse.get_pos()
 
     # Fill black background
-    win.fill((0,0,0))
+    win.fill(BLACK)
 
     player1Alive = False
     player2Alive = False
@@ -52,7 +52,7 @@ while run:
             objects.remove(x)
         elif isinstance(x, Tower) and inside(pos, x.rect):
             x.hover()
-    
+
     # End game if only 1 player left
     if (not player1Alive or not player2Alive) and not neutralAlive:
         break
@@ -66,7 +66,7 @@ while run:
             change = True
             for x in objects:
                 if isinstance(x, Tower) and inside(pos, x.rect):
-                    if selected:
+                    if selected and x != selected:
                         selected.prep_troops(x)
                     else:
                         if x.owner == PLAYER1:
@@ -76,7 +76,49 @@ while run:
             if change:
                 selected = None
 
-            
+        # Pause
+        if event.type == KEYDOWN:
+            if event.key == K_ESCAPE:
+                paused = True
+                inner_run = True
+
+                pauseFont = pygame.font.SysFont('Arial', 30)
+
+                win.fill(BLACK)
+
+                resume = pygame.rect.Rect(0,0,PAUSE_WIDTH,PAUSE_HEIGHT)
+                resume.center = (WIDTH / 3, HEIGHT / 2)
+                resume_text = pauseFont.render("Resume", True, WHITE)
+                resume_text_rect = resume_text.get_rect()
+                resume_text_rect.center = resume.center
+
+                end = pygame.rect.Rect(0,0,PAUSE_WIDTH,PAUSE_HEIGHT)
+                end.center = (2 * WIDTH / 3, HEIGHT / 2)
+                end_text = pauseFont.render("Exit", True, WHITE)
+                end_text_rect = end_text.get_rect()
+                end_text_rect.center = end.center
+
+                pygame.draw.rect(win, BLUE, resume)
+                pygame.draw.rect(win, RED, end)
+                win.blit(resume_text, resume_text_rect)
+                win.blit(end_text, end_text_rect)
+
+                pygame.display.flip()
+
+                while inner_run:
+                    
+                    pos = pygame.mouse.get_pos()
+
+                    for event in pygame.event.get(): 
+                        if event.type == MOUSEBUTTONDOWN:
+                            if resume.collidepoint(pos):
+                                inner_run = False
+                            elif end.collidepoint(pos):
+                                exit(1)
+
+                    clock.tick(FPS)
+
+
         # Check for QUIT event       
         if event.type == pygame.QUIT: 
             run = False

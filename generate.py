@@ -55,8 +55,8 @@ def generate5(win) -> list:
 
 def generateSpeedTower(win, towers : list) -> Tower:
     """Creates a speed tower somewhere on the map"""
-    xs = (i.rect.x for i in towers)
-    ys = (i.rect.y for i in towers)
+    xs = [i.rect.x for i in towers]
+    ys = [i.rect.y for i in towers]
 
     while True:
         x = randint(BUFFER, WIDTH - BUFFER - TOWER_WIDTH)
@@ -65,7 +65,7 @@ def generateSpeedTower(win, towers : list) -> Tower:
         if checkDistance((*xs, x), (*ys, y)):
             break
 
-    return Tower(NEUTRAL_TOWER_HP, NEUTRAL, win, tower_rect(x, y), True)
+    return Tower(SPEED_TOWER_HP, NEUTRAL, win, tower_rect(x, y), True)
 
     
 

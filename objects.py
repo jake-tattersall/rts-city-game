@@ -82,6 +82,18 @@ class Tower(GameObject):
         else:
             pygame.draw.rect(self.win, GREY, self.rect)
 
+        # If speed tower, give hat
+        if self.speed:
+            vertices = [(self.rect.x, self.rect.y), 
+                        (self.rect.x + self.rect.width - 1, self.rect.y), 
+                        (self.rect.x + (TOWER_WIDTH / 2), self.rect.y - (TOWER_WIDTH / 2))]
+            if self.owner == PLAYER1:
+                pygame.draw.polygon(self.win, BLUE, vertices)
+            elif self.owner == PLAYER2:
+                pygame.draw.polygon(self.win, RED, vertices)
+            else:
+                pygame.draw.polygon(self.win, GREY, vertices)
+
         text = towerFont.render(str(self.hp), True, WHITE)
         text_rect = text.get_rect()
         text_rect.center = self.rect.center
@@ -90,9 +102,21 @@ class Tower(GameObject):
 
     def hover(self):
         """Highlights the tower when hovered over"""
-        hightlight_rect = pygame.rect.Rect((self.rect.x - OUTLINE_WIDTH, self.rect.y - OUTLINE_WIDTH, \
-                                            self.rect.width + 2 * OUTLINE_WIDTH, self.rect.height + 2 * OUTLINE_WIDTH), )
-        pygame.draw.rect(self.win, YELLOW, hightlight_rect, OUTLINE_WIDTH)
+
+        if self.speed:
+            highlight_poly = [(self.rect.x - OUTLINE_WIDTH, self.rect.y), 
+                        (self.rect.x + (TOWER_WIDTH / 2), self.rect.y - (TOWER_WIDTH / 2)),
+                        (self.rect.x + self.rect.width, self.rect.y), 
+                        (self.rect.x + TOWER_WIDTH, self.rect.y + TOWER_WIDTH),
+                        (self.rect.x - OUTLINE_WIDTH, self.rect.y + TOWER_WIDTH),
+                        ]
+            
+
+            pygame.draw.polygon(self.win, YELLOW, highlight_poly, OUTLINE_WIDTH)
+        else:
+            hightlight_rect = pygame.rect.Rect((self.rect.x - OUTLINE_WIDTH, self.rect.y - OUTLINE_WIDTH, \
+                                                self.rect.width + 2 * OUTLINE_WIDTH, self.rect.height + 2 * OUTLINE_WIDTH))
+            pygame.draw.rect(self.win, YELLOW, hightlight_rect, OUTLINE_WIDTH)
 
 
     def damage(self, obj : GameObject):
