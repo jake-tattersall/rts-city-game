@@ -3,14 +3,6 @@ import pygame
 from constants import *
 
 
-def inside(mouse : tuple, rect : pygame.rect.Rect):
-    """Returns true if the mouse is inside of the given rectangle"""
-    if rect.x <= mouse[0] <= rect.x + rect.width:
-        if rect.y <= mouse[1] <= rect.y + rect.height:
-            return True
-    return False
-
-
 def magnitude(v1, v2) -> float:
     """Returns the magnitude of the hypotenuse"""
     return (v1 ** 2 + v2 ** 2) ** .5

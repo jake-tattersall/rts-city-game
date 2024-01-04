@@ -1,9 +1,9 @@
 from math import floor
 from random import randint
 
+from classes.tower import Tower
 from constants import *
-from methods import checkDistance, tower_rect
-from objects import Tower
+from functions.utility import checkDistance, tower_rect
 
 
 def generate5(win) -> list:

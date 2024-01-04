@@ -1,10 +1,10 @@
 import pygame
 from pygame.locals import *
 
+from classes.tower import Tower
+from classes.unit import Unit
 from constants import *
-from generate import generate5, generateSpeedTower
-from methods import inside
-from objects import Tower, Unit
+from functions.generation import generate5, generateSpeedTower
 
 pygame.init()
 clock = pygame.time.Clock()
@@ -50,7 +50,7 @@ while run:
         # Remove dead units and show highlight if hovering
         if isinstance(x, Unit) and x.hp == 0:
             objects.remove(x)
-        elif isinstance(x, Tower) and inside(pos, x.rect):
+        elif isinstance(x, Tower) and x.rect.collidepoint(pos):
             x.hover()
 
     # End game if only 1 player left
@@ -65,7 +65,7 @@ while run:
         if event.type == MOUSEBUTTONDOWN:
             change = True
             for x in objects:
-                if isinstance(x, Tower) and inside(pos, x.rect):
+                if isinstance(x, Tower) and x.rect.collidepoint(pos):
                     if selected and x != selected:
                         selected.prep_troops(x)
                     else:

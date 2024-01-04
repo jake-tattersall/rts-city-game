@@ -1,34 +1,11 @@
-from abc import ABC, abstractmethod
-
 import pygame
+from .gameobject import GameObject
 
+from classes.unit import Unit
 from constants import *
-from methods import magnitude, unit_rect
-
-pygame.init()
-towerFont = pygame.font.SysFont('Arial', 20)
-unitFont = pygame.font.SysFont('Arial', 10)
+from functions.utility import unit_rect
 
 
-class GameObject(ABC):
-    """Parent class for all pieces"""
-
-    hp = None
-    owner = None
-    win = None
-    rect = None
-
-
-    @abstractmethod
-    def tick(self, items : list):
-        """"""
-
-
-    @abstractmethod
-    def draw(self):
-        """"""
-
-    
 class Tower(GameObject):
     """Towers"""
 
@@ -37,15 +14,12 @@ class Tower(GameObject):
         self.owner : str = owner
         self.win : pygame.surface.Surface = win
         self.rect : pygame.rect.Rect = rect
+        self.priority = 1
         self.speed : bool = speed
         self.__ticks : int = 0
         self.__marker : int = 0
         self.__target = None
         self.__queue : int = 0
-
-    
-    def __lt__(self, other):
-        return isinstance(other, Unit)
 
 
     def tick(self, items : list):
@@ -94,7 +68,7 @@ class Tower(GameObject):
             else:
                 pygame.draw.polygon(self.win, GREY, vertices)
 
-        text = towerFont.render(str(self.hp), True, WHITE)
+        text = TOWERFONT.render(str(self.hp), True, WHITE)
         text_rect = text.get_rect()
         text_rect.center = self.rect.center
         self.win.blit(text, text_rect)
@@ -149,55 +123,3 @@ class Tower(GameObject):
         self.__queue -= hp
         self.hp -= hp
         return Unit(hp, self.owner, self.win, unit_rect(self.rect.centerx, self.rect.centery), self.__target)
-
-
-class Unit(GameObject):
-    """Units"""
-
-    def __init__(self, hp=0, owner=NEUTRAL, win=None, rect=None, target=None):
-        self.hp : int = hp
-        self.owner : str = owner
-        self.win : pygame.surface.Surface = win
-        self.rect : pygame.rect.Rect = rect
-        self.target : Tower = target
-
-
-    def __lt__(self, other):
-        return not isinstance(other, Unit)
-
-
-    def tick(self, items : list):
-        """Moves the unit, then checks if it needs to perform damage calculation"""
-        velocity = [self.target.rect.centerx - self.rect.centerx, self.target.rect.centery - self.rect.centery]
-
-        mag = magnitude(velocity[0], velocity[1])
-        if mag != 0 and mag != 5:
-            velocity[0] *= (4/mag)
-            velocity[1] *= (4/mag)
-
-        self.rect.x += velocity[0]
-        self.rect.y += velocity[1]
-
-        for x in items:
-            if x == self.target and self.rect.colliderect(x):
-                x.damage(self)
-                self.hp = 0
-
-        self.draw()
-
-
-    def draw(self):
-        """Draws the unit, then draws its value underneath"""
-        if self.hp > 0:
-            if self.owner == PLAYER1:
-                pygame.draw.rect(self.win, BLUE, self.rect)
-            elif self.owner == PLAYER2:
-                pygame.draw.rect(self.win, RED, self.rect)
-            else:
-                pygame.draw.rect(self.win, GREY, self.rect)
-
-            text = unitFont.render(str(self.hp), True, WHITE)
-            text_rect = text.get_rect()
-            text_rect.center = self.rect.center
-            text_rect.centery += text_rect.height
-            self.win.blit(text, text_rect)

@@ -35,3 +35,6 @@ SPEED_TOWER_HP = 15
 UNIT_HP_MAX = 5
 SPAWN_DELAY = FPS / 2
 GROW_MOD = 1.4
+
+TOWERFONT = pygame.font.SysFont('Arial', 20)
+UNITFONT = pygame.font.SysFont('Arial', 10)
