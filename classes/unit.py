@@ -1,8 +1,9 @@
 import pygame
-from .gameobject import GameObject
 
 from constants import *
 from functions.utility import magnitude
+
+from .gameobject import GameObject
 
 
 class Unit(GameObject):
@@ -14,7 +15,7 @@ class Unit(GameObject):
         self.owner : str = owner
         self.win : pygame.surface.Surface = win
         self.rect : pygame.rect.Rect = rect
-        self.priority : int = 2
+        self.priority = 2
         self.target = target
 
 

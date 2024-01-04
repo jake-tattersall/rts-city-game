@@ -17,10 +17,14 @@ objects = []
 objects.extend(generate5(win))
 objects.append(generateSpeedTower(win, objects))
 
+def sorting_key(item):
+    """Sort items by their priority. Closer to 0 means up front"""
+    return item.priority
+
 run = True
 while run:
     # Towers should tick first
-    objects = sorted(objects)
+    objects = sorted(objects, key=sorting_key)
 
     # Mouse
     pos = pygame.mouse.get_pos()
@@ -53,7 +57,7 @@ while run:
         elif isinstance(x, Tower) and x.rect.collidepoint(pos):
             x.hover()
 
-    # End game if only 1 player left
+    # End game if only 1 player left and no neutrals
     if (not player1Alive or not player2Alive) and not neutralAlive:
         break
 

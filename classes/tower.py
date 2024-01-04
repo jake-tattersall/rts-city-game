@@ -1,9 +1,10 @@
 import pygame
-from .gameobject import GameObject
 
 from classes.unit import Unit
 from constants import *
 from functions.utility import unit_rect
+
+from .gameobject import GameObject
 
 
 class Tower(GameObject):
@@ -18,8 +19,7 @@ class Tower(GameObject):
         self.speed : bool = speed
         self.__ticks : int = 0
         self.__marker : int = 0
-        self.__target = None
-        self.__queue : int = 0
+        self.queue : int = 0
 
 
     def tick(self, items : list):
@@ -38,11 +38,11 @@ class Tower(GameObject):
                 self.hp += 1
                 self.__ticks = 0
 
-        if self.__queue and (self.__ticks - self.__marker) % SPAWN_DELAY == 0:
+        if self.queue and (self.__ticks - self.__marker) % SPAWN_DELAY == 0:
             items.append(self.__generate_troop())
 
-        if self.__queue < 0:
-            self.__queue = 0
+        if self.queue < 0:
+            self.queue = 0
 
         self.draw()
 
@@ -97,8 +97,8 @@ class Tower(GameObject):
         """Take damage. If hp goes negative, change sides. Called from the unit's tick function"""
         if obj.owner != self.owner:
             self.hp -= obj.hp
-            if self.__queue:
-                self.__queue -= obj.hp
+            if self.queue:
+                self.queue -= obj.hp
             if self.hp < 0:
                 self.owner = obj.owner
                 self.hp = -self.hp
@@ -108,18 +108,18 @@ class Tower(GameObject):
 
     def prep_troops(self, target):
         """Generate queue, marker, and declare target"""
-        self.__queue = self.hp
+        self.queue = self.hp
         self.__marker = self.__ticks
-        self.__target = target
+        self.target = target
 
 
     def __generate_troop(self):
         """Spawn a troop"""
-        if self.__queue >= UNIT_HP_MAX:
+        if self.queue >= UNIT_HP_MAX:
             hp = UNIT_HP_MAX
         else:
-            hp = self.__queue
-            self.__queue = 0
-        self.__queue -= hp
+            hp = self.queue
+            self.queue = 0
+        self.queue -= hp
         self.hp -= hp
-        return Unit(hp, self.owner, self.win, unit_rect(self.rect.centerx, self.rect.centery), self.__target)
+        return Unit(hp, self.owner, self.win, unit_rect(self.rect.centerx, self.rect.centery), self.target)

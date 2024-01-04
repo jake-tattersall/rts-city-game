@@ -11,6 +11,7 @@ class GameObject(ABC):
     win : pygame.surface.Surface = None
     rect : pygame.rect.Rect = None
     priority : int = None
+    target = None
 
 
     @abstractmethod
@@ -21,7 +22,7 @@ class GameObject(ABC):
     @abstractmethod
     def draw(self):
         """"""
-
+        
 
     def __lt__(self, other):
         return self.priority - other.priority
