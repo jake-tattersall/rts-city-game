@@ -134,6 +134,8 @@ while run:
     clock.tick(FPS)
 
 
+#print(pygame.surfarray.array2d(win))
+
 player1Alive = False
 player2Alive = False
 for x in objects:

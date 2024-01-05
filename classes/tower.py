@@ -1,4 +1,5 @@
 import pygame
+from math import ceil
 
 from classes.unit import Unit
 from constants import *
@@ -28,9 +29,9 @@ class Tower(GameObject):
         if self.owner != NEUTRAL:
             self.__ticks += 1
             if self.speed:
-                timer = FPS * GROW_MOD * .5
+                timer = ceil(FPS * GROW_MOD * .5)
             else:
-                timer = FPS * GROW_MOD
+                timer = ceil(FPS * GROW_MOD)
             if self.__ticks == timer:
                 self.hp += 1
                 self.__ticks = 0

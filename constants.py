@@ -38,8 +38,10 @@ SPEED_TOWER_HP = 5
 UNIT_HP_MAX = 5
 SPAWN_DELAY = 2 # Multiplier for units spawning 
 GROW_MOD = 1.5 # Seconds for towers to heal
+
+
 AI_ATTACK_MAX = 3 # Number of units that should be over the defender's amt 
-SPEED = 60 # Pixels / sec
+SPEED = 90 # Pixels / sec
 
 TOWERFONT = pygame.font.SysFont('Arial', 20)
 UNITFONT = pygame.font.SysFont('Arial', 10)
