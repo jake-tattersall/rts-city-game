@@ -22,6 +22,9 @@ PLAYER1 = "1"
 PLAYER2 = "2"
 NEUTRAL = "3"
 
+ATTACK = "4"
+DEFEND = "5"
+
 BLACK = (0,0,0)
 WHITE = (255,255,255)
 RED = (220,20,60)
@@ -30,11 +33,13 @@ BLUE = (100,149,237)
 YELLOW = (255,255,102)
 
 PLAYER_TOWER_HP = 25
-NEUTRAL_TOWER_HP = 40
-SPEED_TOWER_HP = 15
+NEUTRAL_TOWER_HP = 15
+SPEED_TOWER_HP = 5
 UNIT_HP_MAX = 5
-SPAWN_DELAY = FPS / 2
-GROW_MOD = 1.4
+SPAWN_DELAY = 2 # Seconds between unit growth
+GROW_MOD = 1.4 # Multiplier for unit growth speed
+AI_ATTACK_MAX = 3
+SPEED = 60 # Pixels / sec
 
 TOWERFONT = pygame.font.SysFont('Arial', 20)
 UNITFONT = pygame.font.SysFont('Arial', 10)

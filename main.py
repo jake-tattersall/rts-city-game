@@ -5,6 +5,7 @@ from classes.tower import Tower
 from classes.unit import Unit
 from constants import *
 from functions.generation import generate5, generateSpeedTower
+from functions.npc import ai_decision
 
 pygame.init()
 clock = pygame.time.Clock()
@@ -60,6 +61,8 @@ while run:
     # End game if only 1 player left and no neutrals
     if (not player1Alive or not player2Alive) and not neutralAlive:
         break
+
+    ai_decision(objects)
 
     # Show objects
     pygame.display.flip()
@@ -140,3 +143,4 @@ for x in objects:
     elif x.owner == PLAYER2:
         print("Player 2 Wins!")
         break
+

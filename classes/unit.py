@@ -11,10 +11,7 @@ class Unit(GameObject):
 
 
     def __init__(self, hp=0, owner=NEUTRAL, win=None, rect=None, target=None):
-        self.hp : int = hp
-        self.owner : str = owner
-        self.win : pygame.surface.Surface = win
-        self.rect : pygame.rect.Rect = rect
+        super().__init__(hp, owner, win, rect)
         self.priority = 2
         self.target = target
 
@@ -24,9 +21,9 @@ class Unit(GameObject):
         velocity = [self.target.rect.centerx - self.rect.centerx, self.target.rect.centery - self.rect.centery]
 
         mag = magnitude(velocity[0], velocity[1])
-        if mag != 0 and mag != 5:
-            velocity[0] *= (4/mag)
-            velocity[1] *= (4/mag)
+        if mag != 0:
+            velocity[0] *= (SPEED/FPS/mag)
+            velocity[1] *= (SPEED/FPS/mag)
 
         self.rect.x += velocity[0]
         self.rect.y += velocity[1]

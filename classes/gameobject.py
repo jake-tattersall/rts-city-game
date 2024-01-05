@@ -6,12 +6,13 @@ import pygame
 class GameObject(ABC):
     """Parent class for all pieces"""
 
-    hp : int = None
-    owner : str = None
-    win : pygame.surface.Surface = None
-    rect : pygame.rect.Rect = None
-    priority : int = None
-    target = None
+    def __init__(self, hp, owner, win, rect):
+        self.hp : int = hp
+        self.owner : str = owner
+        self.win : pygame.surface.Surface = win
+        self.rect : pygame.rect.Rect = rect
+        self.priority : int = None
+        self.target = None
 
 
     @abstractmethod

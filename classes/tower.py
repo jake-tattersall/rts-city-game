@@ -11,14 +11,11 @@ class Tower(GameObject):
     """Towers"""
 
     def __init__(self, hp=0, owner=NEUTRAL, win=None, rect=None, speed=False):
-        self.hp : int = hp
-        self.owner : str = owner
-        self.win : pygame.surface.Surface = win
-        self.rect : pygame.rect.Rect = rect
+        super().__init__(hp, owner, win, rect)
         self.priority = 1
         self.speed : bool = speed
         self.__ticks : int = 0
-        self.__marker : int = 0
+        self.__marker : int = None
         self.queue : int = 0
 
 
@@ -38,11 +35,13 @@ class Tower(GameObject):
                 self.hp += 1
                 self.__ticks = 0
 
-        if self.queue and (self.__ticks - self.__marker) % SPAWN_DELAY == 0:
+        if self.queue and (self.__ticks - self.__marker) % (FPS/SPAWN_DELAY) == 0:
             items.append(self.__generate_troop())
 
-        if self.queue < 0:
+        if self.queue <= 0:
             self.queue = 0
+            self.__marker = None
+            self.target = None
 
         self.draw()
 
