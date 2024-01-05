@@ -36,8 +36,8 @@ PLAYER_TOWER_HP = 25
 NEUTRAL_TOWER_HP = 15
 SPEED_TOWER_HP = 5
 UNIT_HP_MAX = 5
-SPAWN_DELAY = 2 # Seconds between unit growth
-GROW_MOD = 1.4 # Multiplier for unit growth speed
+SPAWN_DELAY = 2 # Multiplier for units spawning to move
+GROW_MOD = 1 # Seconds for units to spawn
 AI_ATTACK_MAX = 3
 SPEED = 60 # Pixels / sec
 
