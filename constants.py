@@ -18,6 +18,11 @@ PAUSE_HEIGHT = 200
 
 FPS = 30
 
+STATS_FILE = "stats.txt"
+WINS = "win"
+LOSSES = "loss"
+SPLITTER = " "
+
 PLAYER1 = "1"
 PLAYER2 = "2"
 NEUTRAL = "3"

@@ -136,13 +136,35 @@ while run:
 
 #print(pygame.surfarray.array2d(win))
 
-player1Alive = False
-player2Alive = False
-for x in objects:
-    if x.owner == PLAYER1:
-        print("Player 1 Wins!")
-        break
-    elif x.owner == PLAYER2:
-        print("Player 2 Wins!")
-        break
+
+wins = None
+losses = None
+
+with open(STATS_FILE, "r") as file:
+
+    lines = file.readlines()
+    for line in lines:
+        line = line.split(SPLITTER)
+        if line[0] == WINS:
+            wins = int(line[1])
+        elif line[0] == LOSSES:
+            losses = int(line[1])
+
+
+with open(STATS_FILE, "w") as file:
+
+    player1Alive = False
+    player2Alive = False
+    for x in objects:
+        if x.owner == PLAYER1:
+            print("Player 1 Wins!")
+            wins += 1
+            break
+        elif x.owner == PLAYER2:
+            print("Player 2 Wins!")
+            losses += 1
+            break
+
+    file.write(WINS + SPLITTER + str(wins) + "\n")
+    file.write(LOSSES + SPLITTER + str(losses) + "\n")
 
